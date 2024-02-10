@@ -31,6 +31,18 @@ app.post("/webhook", async (req, res) => {
     const params = body.queryResult.parameters;
 
     let gold, silver, cash, loan;
+    let outputContexts = []; // Declare outputContexts here
+    // Check if previous context exists
+    const context = body.queryResult.outputContexts.find((context) =>
+      context.name.endsWith("followup")
+    );
+
+    if (context && context.parameters) {
+      gold = context.parameters.Gold;
+      silver = context.parameters.Silver;
+      cash = context.parameters.Cash;
+      loan = context.parameters.Loan;
+    }
 
     switch (intentName) {
       case "Default Welcome Intent": {
@@ -192,12 +204,24 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("cash-loan-followup")
           )
         ) {
-          loan = params.Loan;
+          // Update context with current values
+          const outputContexts = [
+            {
+              name: `${body.session}/contexts/cash-loan-followup`,
+              lifespanCount: 2,
+              parameters: {
+                Gold: gold,
+                Silver: silver,
+                Cash: cash,
+                Loan: params.Loan,
+              },
+            },
+          ];
 
           console.log("Gold: ", gold);
           console.log("Silver: ", silver);
           console.log("Cash: ", cash);
-          console.log("Loan: ", loan);
+          console.log("Loan: ", params.Loan);
 
           let assets = gold + silver + cash;
           let liabilities = loan;
