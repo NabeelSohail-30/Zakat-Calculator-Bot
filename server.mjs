@@ -193,12 +193,16 @@ app.post("/webhook", async (req, res) => {
           )
         ) {
           loan = params.Loan;
+
+          console.log("Gold: ", gold);
+          console.log("Silver: ", silver);
+          console.log("Cash: ", cash);
           console.log("Loan: ", loan);
 
-          var assets = gold + silver + cash;
-          var liabilities = loan;
-          var netAssets = assets - liabilities;
-          var zakatAmount = netAssets * 0.025;
+          let assets = gold + silver + cash;
+          let liabilities = loan;
+          let netAssets = assets - liabilities;
+          let zakatAmount = netAssets * 0.025;
 
           res.send({
             fulfillmentMessages: [
