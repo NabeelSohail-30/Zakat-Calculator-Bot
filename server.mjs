@@ -30,6 +30,8 @@ app.post("/webhook", async (req, res) => {
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
 
+    let gold, silver, cash, loan;
+
     switch (intentName) {
       case "Default Welcome Intent": {
         res.send({
@@ -73,7 +75,7 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("gold-followup")
           )
         ) {
-          var gold = params.Gold;
+          gold = params.Gold;
           console.log("Gold: ", gold);
           res.send({
             fulfillmentMessages: [
@@ -112,7 +114,7 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("gold-silver-followup")
           )
         ) {
-          var silver = params.Silver;
+          silver = params.Silver;
           console.log("Silver: ", silver);
           res.send({
             fulfillmentMessages: [
@@ -151,7 +153,7 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("silver-cash-followup")
           )
         ) {
-          var cash = params.Cash;
+          cash = params.Cash;
           console.log("Cash: ", cash);
           res.send({
             fulfillmentMessages: [
@@ -190,11 +192,11 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("cash-loan-followup")
           )
         ) {
-          var loan = params.Loan;
+          loan = params.Loan;
           console.log("Loan: ", loan);
 
-          var assets = 1000;
-          var liabilities = 500;
+          var assets = gold + silver + cash;
+          var liabilities = loan;
           var netAssets = assets - liabilities;
           var zakatAmount = netAssets * 0.025;
 
