@@ -37,7 +37,7 @@ app.post("/webhook", async (req, res) => {
             {
               text: {
                 text: [
-                  "Hello There, Welcome to Zakat Calculator. How can I help you?",
+                  "Hello There, Welcome to Zakat Calculator. Enter Zakat to continue.",
                 ],
               },
             },
