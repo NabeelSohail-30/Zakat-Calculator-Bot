@@ -46,6 +46,22 @@ app.post("/webhook", async (req, res) => {
         break;
       }
 
+      case "Gold": {
+        res.send({
+          fulfillmentMessages: [
+            {
+              text: {
+                text: [
+                  "Okay to Calculate Your Zakat Ammount you need to answer some questions. Let's start how much gold do you have in grams?",
+                  ,
+                ],
+              },
+            },
+          ],
+        });
+        break;
+      }
+
       case "Default Fallback Intent": {
         res.send({
           fulfillmentMessages: [
