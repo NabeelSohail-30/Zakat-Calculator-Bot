@@ -57,30 +57,47 @@ app.post("/webhook", async (req, res) => {
               },
             },
           ],
-          //   outputContexts: [
-          //     {
-          //       name: `${body.session}/contexts/Gold-followup`,
-          //       lifespanCount: 2, // Adjust the lifespanCount as needed
-          //     },
-          //   ],
+          outputContexts: [
+            {
+              name: `${body.session}/contexts/Gold-followup`,
+              lifespanCount: 2, // Adjust the lifespanCount as needed
+            },
+          ],
         });
         break;
       }
 
       case "Gold - Silver": {
-        gold = params.gold;
-        console.log("Gold: ", gold);
-        res.send({
-          fulfillmentMessages: [
-            {
-              text: {
-                text: [
-                  "Okay, how much silver do you have in grams? If you don't have any, just say 0.",
-                ],
+        if (
+          body.queryResult.outputContexts.some((context) =>
+            context.name.endsWith("gold-followup")
+          )
+        ) {
+          gold = params.gold;
+          console.log("Gold: ", gold);
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: [
+                    "Okay, how much silver do you have in grams? If you don't have any, just say 0.",
+                  ],
+                },
               },
-            },
-          ],
-        });
+            ],
+          });
+        } else {
+          // Handle unexpected case where context is not present
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: ["Sorry, I didn't get that. Please try again."],
+                },
+              },
+            ],
+          });
+        }
         break;
       }
 
