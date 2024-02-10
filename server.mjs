@@ -53,7 +53,6 @@ app.post("/webhook", async (req, res) => {
               text: {
                 text: [
                   "Okay to Calculate Your Zakat Ammount you need to answer some questions. Let's start how much gold do you have in grams?",
-                  ,
                 ],
               },
             },
