@@ -69,7 +69,7 @@ app.post("/webhook", async (req, res) => {
 
       case "Gold - Silver": {
         if (
-          body.queryResult.inputContext.some((context) =>
+          body.queryResult.outputContexts.some((context) =>
             context.name.endsWith("Gold-followup")
           )
         ) {
