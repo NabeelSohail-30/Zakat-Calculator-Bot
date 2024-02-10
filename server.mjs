@@ -192,17 +192,6 @@ app.post("/webhook", async (req, res) => {
         ) {
           var loan = params.Loan;
           console.log("Loan: ", loan);
-          res.send({
-            fulfillmentMessages: [
-              {
-                text: {
-                  text: [
-                    "okay, I have all the information I need. Let me calculate your Zakat amount. Please wait a moment.",
-                  ],
-                },
-              },
-            ],
-          });
 
           var assets = 1000;
           var liabilities = 500;
@@ -211,6 +200,13 @@ app.post("/webhook", async (req, res) => {
 
           res.send({
             fulfillmentMessages: [
+              {
+                text: {
+                  text: [
+                    "Okay, I have all the information I need. Let me calculate your Zakat amount. Please wait a moment.",
+                  ],
+                },
+              },
               {
                 text: {
                   text: [`Total Payable Zakat Amount: ${zakatAmount}`],
