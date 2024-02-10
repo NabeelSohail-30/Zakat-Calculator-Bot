@@ -202,10 +202,19 @@ app.post("/webhook", async (req, res) => {
                 },
               },
             ],
-            outputContexts: [
+          });
+
+          var assets = 1000;
+          var liabilities = 500;
+          var netAssets = assets - liabilities;
+          var zakatAmount = netAssets * 0.025;
+
+          res.send({
+            fulfillmentMessages: [
               {
-                name: `${body.session}/contexts/cash-loan-followup`,
-                lifespanCount: 2, // Adjust the lifespanCount as needed
+                text: {
+                  text: [`Total Payable Zakat Amount: ${zakatAmount}`],
+                },
               },
             ],
           });
@@ -248,21 +257,6 @@ app.post("/webhook", async (req, res) => {
         });
       }
     }
-
-    var assets = 1000;
-    var liabilities = 500;
-    var netAssets = assets - liabilities;
-    var zakatAmount = netAssets * 0.025;
-
-    res.send({
-      fulfillmentMessages: [
-        {
-          text: {
-            text: [`Total Payable Zakat Amount: ${zakatAmount}`],
-          },
-        },
-      ],
-    });
   } catch (err) {
     console.log(err);
     res.send({
