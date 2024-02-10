@@ -52,7 +52,24 @@ app.post("/webhook", async (req, res) => {
             {
               text: {
                 text: [
-                  "Okay to Calculate Your Zakat Ammount you need to answer some questions. Let's start how much gold do you have in grams?",
+                  "Okay to Calculate Your Zakat Ammount you need to answer some questions. Let's start how much gold do you have in grams? If you don't have any, just say 0.",
+                ],
+              },
+            },
+          ],
+        });
+        break;
+      }
+
+      case "Gold - Silver": {
+        gold = params.gold;
+        console.log("Gold: ", gold);
+        res.send({
+          fulfillmentMessages: [
+            {
+              text: {
+                text: [
+                  "Okay, how much silver do you have in grams? If you don't have any, just say 0.",
                 ],
               },
             },
