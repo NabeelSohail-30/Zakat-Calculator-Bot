@@ -73,7 +73,7 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("gold-followup")
           )
         ) {
-          var gold = params.gold;
+          var gold = params.Gold;
           console.log("Gold: ", gold);
           res.send({
             fulfillmentMessages: [
