@@ -52,9 +52,15 @@ app.post("/webhook", async (req, res) => {
             {
               text: {
                 text: [
-                  "Okay to Calculate Your Zakat Ammount you need to answer some questions. Let's start how much gold do you have in grams? If you don't have any, just say 0.",
+                  "Okay to Calculate Your Zakat Amount, you need to answer some questions. Let's start. How much gold do you have in grams? If you don't have any, just say 0.",
                 ],
               },
+            },
+          ],
+          outputContexts: [
+            {
+              name: `${body.session}/contexts/gold-followup`,
+              lifespanCount: 2, // Adjust the lifespanCount as needed
             },
           ],
         });
@@ -62,19 +68,36 @@ app.post("/webhook", async (req, res) => {
       }
 
       case "Gold - Silver": {
-        gold = params.gold;
-        console.log("Gold: ", gold);
-        res.send({
-          fulfillmentMessages: [
-            {
-              text: {
-                text: [
-                  "Okay, how much silver do you have in grams? If you don't have any, just say 0.",
-                ],
+        if (
+          body.queryResult.outputContexts.some((context) =>
+            context.name.endsWith("gold-followup")
+          )
+        ) {
+          gold = params.gold;
+          console.log("Gold: ", gold);
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: [
+                    "Okay, how much silver do you have in grams? If you don't have any, just say 0.",
+                  ],
+                },
               },
-            },
-          ],
-        });
+            ],
+          });
+        } else {
+          // Handle unexpected case where context is not present
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: ["Sorry, I didn't get that. Please try again."],
+                },
+              },
+            ],
+          });
+        }
         break;
       }
 
