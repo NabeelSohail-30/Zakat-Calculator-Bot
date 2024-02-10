@@ -37,7 +37,7 @@ app.post("/webhook", async (req, res) => {
             {
               text: {
                 text: [
-                  "Hello There, Welcome to SAF Collegiate. How can I help you?",
+                  "Hello There, Welcome to Zakat Calculator. How can I help you?",
                 ],
               },
             },
@@ -51,9 +51,7 @@ app.post("/webhook", async (req, res) => {
           fulfillmentMessages: [
             {
               text: {
-                text: [
-                  "Sorry, I didn't get that. Please try again or contact us at 0300-1234567",
-                ],
+                text: ["Sorry, I didn't get that. Please try again."],
               },
             },
           ],
@@ -66,9 +64,7 @@ app.post("/webhook", async (req, res) => {
           fulfillmentMessages: [
             {
               text: {
-                text: [
-                  "Sorry, I didn't get that. Please try again or contact us at 0300-1234567",
-                ],
+                text: ["Sorry, I didn't get that. Please try again."],
               },
             },
           ],
@@ -81,7 +77,7 @@ app.post("/webhook", async (req, res) => {
       fulfillmentMessages: [
         {
           text: {
-            text: ["something is wrong in server, please try again"],
+            text: ["Something is wrong in server, please try again"],
           },
         },
       ],
