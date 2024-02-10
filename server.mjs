@@ -59,7 +59,7 @@ app.post("/webhook", async (req, res) => {
           ],
           outputContexts: [
             {
-              name: `${body.session}/contexts/gold-followup`,
+              name: `${body.session}/contexts/Gold-followup`,
               lifespanCount: 2, // Adjust the lifespanCount as needed
             },
           ],
@@ -70,7 +70,7 @@ app.post("/webhook", async (req, res) => {
       case "Gold - Silver": {
         if (
           body.queryResult.outputContexts.some((context) =>
-            context.name.endsWith("gold-followup")
+            context.name.endsWith("Gold-followup")
           )
         ) {
           gold = params.gold;
