@@ -124,6 +124,51 @@ app.post("/webhook", async (req, res) => {
                 },
               },
             ],
+            outputContexts: [
+              {
+                name: `${body.session}/contexts/silver-cash-followup`,
+                lifespanCount: 2, // Adjust the lifespanCount as needed
+              },
+            ],
+          });
+        } else {
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: ["Sorry, I didn't get that. Please try again."],
+                },
+              },
+            ],
+          });
+        }
+        break;
+      }
+
+      case "Cash-Loan": {
+        if (
+          body.queryResult.outputContexts.some((context) =>
+            context.name.endsWith("silver-cash-followup")
+          )
+        ) {
+          var cash = params.Cash;
+          console.log("Cash: ", cash);
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: [
+                    "Okay, how much loan do you have to pay? If you don't have any, just say 0.",
+                  ],
+                },
+              },
+            ],
+            outputContexts: [
+              {
+                name: `${body.session}/contexts/cash-loan-followup`,
+                lifespanCount: 2, // Adjust the lifespanCount as needed
+              },
+            ],
           });
         } else {
           res.send({
