@@ -184,6 +184,45 @@ app.post("/webhook", async (req, res) => {
         break;
       }
 
+      case "Loan-End": {
+        if (
+          body.queryResult.outputContexts.some((context) =>
+            context.name.endsWith("cash-loan-followup")
+          )
+        ) {
+          var loan = params.Loan;
+          console.log("Loan: ", loan);
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: [
+                    "okay, I have all the information I need. Let me calculate your Zakat amount. Please wait a moment.",
+                  ],
+                },
+              },
+            ],
+            outputContexts: [
+              {
+                name: `${body.session}/contexts/cash-loan-followup`,
+                lifespanCount: 2, // Adjust the lifespanCount as needed
+              },
+            ],
+          });
+        } else {
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: ["Sorry, I didn't get that. Please try again."],
+                },
+              },
+            ],
+          });
+        }
+        break;
+      }
+
       case "Default Fallback Intent": {
         res.send({
           fulfillmentMessages: [
@@ -209,6 +248,21 @@ app.post("/webhook", async (req, res) => {
         });
       }
     }
+
+    var assets = 1000;
+    var liabilities = 500;
+    var netAssets = assets - liabilities;
+    var zakatAmount = netAssets * 0.025;
+
+    res.send({
+      fulfillmentMessages: [
+        {
+          text: {
+            text: [`Total Payable Zakat Amount: ${zakatAmount}`],
+          },
+        },
+      ],
+    });
   } catch (err) {
     console.log(err);
     res.send({
