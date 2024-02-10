@@ -85,9 +85,47 @@ app.post("/webhook", async (req, res) => {
                 },
               },
             ],
+            outputContexts: [
+              {
+                name: `${body.session}/contexts/gold-silver-followup`,
+                lifespanCount: 2, // Adjust the lifespanCount as needed
+              },
+            ],
           });
         } else {
-          // Handle unexpected case where context is not present
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: ["Sorry, I didn't get that. Please try again."],
+                },
+              },
+            ],
+          });
+        }
+        break;
+      }
+
+      case "Silver-Cash": {
+        if (
+          body.queryResult.outputContexts.some((context) =>
+            context.name.endsWith("gold-silver-followup")
+          )
+        ) {
+          var silver = params.Silver;
+          console.log("Silver: ", silver);
+          res.send({
+            fulfillmentMessages: [
+              {
+                text: {
+                  text: [
+                    "Okay, how much total cash and bank balance do you have? If you don't have any, just say 0.",
+                  ],
+                },
+              },
+            ],
+          });
+        } else {
           res.send({
             fulfillmentMessages: [
               {
