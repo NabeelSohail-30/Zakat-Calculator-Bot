@@ -45,7 +45,11 @@ app.post("/webhook", async (req, res) => {
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
 
-    let gold, silver, cash, loan;
+    // let gold, silver, cash, loan;
+
+    // Initialize session variables object if not present
+    session.variables = session.variables || {};
+    let { gold, silver, cash, loan } = session.variables;
 
     switch (intentName) {
       case "Default Welcome Intent": {
