@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import cors from "cors";
+import session from "express-session";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import dialogflow from "dialogflow";
@@ -192,16 +193,16 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("cash-loan-followup")
           )
         ) {
-            loan = params.Loan;
-            console.log("Gold: ", gold);
-            console.log("Silver: ", silver);
-            console.log("Cash: ", cash);
-            console.log("Loan: ", loan);
+          loan = params.Loan;
+          console.log("Gold: ", gold);
+          console.log("Silver: ", silver);
+          console.log("Cash: ", cash);
+          console.log("Loan: ", loan);
 
-            let assets = gold + silver + cash;
-            let liabilities = loan;
-            let netAssets = assets - liabilities;
-            let zakatAmount = netAssets * 0.025;
+          let assets = gold + silver + cash;
+          let liabilities = loan;
+          let netAssets = assets - liabilities;
+          let zakatAmount = netAssets * 0.025;
 
           res.send({
             fulfillmentMessages: [
