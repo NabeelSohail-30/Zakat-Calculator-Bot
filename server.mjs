@@ -2,15 +2,27 @@ import express from "express";
 import path from "path";
 import cors from "cors";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import dialogflow from "dialogflow";
 import { WebhookClient } from "dialogflow-fulfillment";
+import { parseArgs } from "util";
 
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "testing123",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
 
 app.get("/", (req, res) => {
   res.sendStatus(200);
@@ -28,7 +40,7 @@ app.post("/webhook", async (req, res) => {
   try {
     const body = req.body;
     const session = body.session;
-    console.log("Session: ", session.value);
+    // console.log("Session: ", session);
 
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
@@ -80,6 +92,8 @@ app.post("/webhook", async (req, res) => {
         ) {
           gold = params.Gold;
           console.log("Gold: ", gold);
+          session.gold = gold;
+          console.log("Gold: ", session.gold);
           res.send({
             fulfillmentMessages: [
               {
