@@ -23,9 +23,6 @@ const port = process.env.PORT || 5001;
 
 /*---------------------APIs--------------------------*/
 
-// In-memory storage (replace with a database in production)
-const userValues = {};
-
 app.post("/webhook", async (req, res) => {
   try {
     const body = req.body;
@@ -34,15 +31,6 @@ app.post("/webhook", async (req, res) => {
     const params = body.queryResult.parameters;
 
     let gold, silver, cash, loan;
-
-    // Retrieve stored values from memory
-    if (userValues[body.session]) {
-      const storedValues = userValues[body.session];
-      gold = storedValues.gold;
-      silver = storedValues.silver;
-      cash = storedValues.cash;
-      loan = storedValues.loan;
-    }
 
     switch (intentName) {
       case "Default Welcome Intent": {
@@ -204,34 +192,16 @@ app.post("/webhook", async (req, res) => {
             context.name.endsWith("cash-loan-followup")
           )
         ) {
-          //   loan = params.Loan;
-          //   console.log("Gold: ", gold);
-          //   console.log("Silver: ", silver);
-          //   console.log("Cash: ", cash);
-          //   console.log("Loan: ", loan);
+            loan = params.Loan;
+            console.log("Gold: ", gold);
+            console.log("Silver: ", silver);
+            console.log("Cash: ", cash);
+            console.log("Loan: ", loan);
 
-          //   let assets = gold + silver + cash;
-          //   let liabilities = loan;
-          //   let netAssets = assets - liabilities;
-          //   let zakatAmount = netAssets * 0.025;
-
-          // Update stored values
-          userValues[body.session] = {
-            gold: gold,
-            silver: silver,
-            cash: cash,
-            loan: params.Loan,
-          };
-
-          console.log("Gold: ", gold);
-          console.log("Silver: ", silver);
-          console.log("Cash: ", cash);
-          console.log("Loan: ", params.Loan);
-
-          let assets = gold + silver + cash;
-          let liabilities = params.Loan;
-          let netAssets = assets - liabilities;
-          let zakatAmount = netAssets * 0.025;
+            let assets = gold + silver + cash;
+            let liabilities = loan;
+            let netAssets = assets - liabilities;
+            let zakatAmount = netAssets * 0.025;
 
           res.send({
             fulfillmentMessages: [
