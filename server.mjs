@@ -27,9 +27,8 @@ const port = process.env.PORT || 5001;
 app.post("/webhook", async (req, res) => {
   try {
     const body = req.body;
-    // const session = body.session;
-    const session = req.session;
-    console.log("Session: ", session);
+    const session = body.session;
+    console.log("Session: ", session.value);
 
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
