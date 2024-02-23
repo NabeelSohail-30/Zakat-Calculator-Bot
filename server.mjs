@@ -44,7 +44,9 @@ app.post("/webhook", async (req, res) => {
 
     // Check if session exists in the database, if not, create a new entry
     const existingSession = Zakat.findOne({ session: session });
-    console.log("Existing Session: ", existingSession);
+    // console.log("Existing Session: ", existingSession);
+    console.log("Existing Session: ", existingSession.session);
+    console.log("Existing Session pk: ", existingSession._id);
     if (!existingSession) {
       console.log("Creating new session");
       const newSession = new Zakat({
