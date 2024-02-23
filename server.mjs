@@ -48,7 +48,7 @@ app.post("/webhook", async (req, res) => {
     //   zakatData = new Zakat({ session });
     //   await zakatData.save();
     // }
-    zakatData = new Zakat({ session });
+    let zakatData = new Zakat({ session });
     await zakatData.save();
 
     const intentName = body.queryResult.intent.displayName;
