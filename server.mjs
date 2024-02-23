@@ -45,11 +45,7 @@ app.post("/webhook", async (req, res) => {
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
 
-    // let gold, silver, cash, loan;
-
-    // Initialize session variables object if not present
-    session.variables = session.variables || {};
-    let { gold, silver, cash, loan } = session.variables;
+    let gold, silver, cash, loan;
 
     switch (intentName) {
       case "Default Welcome Intent": {
@@ -96,8 +92,7 @@ app.post("/webhook", async (req, res) => {
         ) {
           gold = params.Gold;
           console.log("Gold: ", gold);
-          session.gold = gold;
-          console.log("Gold: ", session.gold);
+
           res.send({
             fulfillmentMessages: [
               {
@@ -137,6 +132,7 @@ app.post("/webhook", async (req, res) => {
         ) {
           silver = params.Silver;
           console.log("Silver: ", silver);
+
           res.send({
             fulfillmentMessages: [
               {
@@ -176,6 +172,7 @@ app.post("/webhook", async (req, res) => {
         ) {
           cash = params.Cash;
           console.log("Cash: ", cash);
+
           res.send({
             fulfillmentMessages: [
               {
