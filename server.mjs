@@ -43,11 +43,13 @@ app.post("/webhook", async (req, res) => {
     console.log("Session: ", session);
 
     // Check if session exists in the database, if not, create a new entry
-    let zakatData = await Zakat.findOne({ session });
-    if (!zakatData) {
-      zakatData = new Zakat({ session });
-      await zakatData.save();
-    }
+    // let zakatData = await Zakat.findOne({ session });
+    // if (!zakatData) {
+    //   zakatData = new Zakat({ session });
+    //   await zakatData.save();
+    // }
+    zakatData = new Zakat({ session });
+    await zakatData.save();
 
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
