@@ -34,7 +34,7 @@ app.get("/ping", (req, res) => {
 
 const port = process.env.PORT || 5001;
 
-/*---------------------APIs--------------------------*/
+/*---------------------Dialogflow Webhook--------------------------*/
 
 app.post("/webhook", async (req, res) => {
   try {
@@ -288,6 +288,41 @@ app.post("/webhook", async (req, res) => {
       ],
     });
   }
+});
+
+/*--------------------Schema--------------------------*/
+const zakatSchema = new mongoose.Schema({
+  session: String,
+  gold: Number,
+  silver: Number,
+  cash: Number,
+  loan: Number,
+});
+
+const Zakat = mongoose.model("Zakat", zakatSchema);
+
+/*---------------------Database--------------------------*/
+let dbURI =
+  "mongodb+srv://NabeelSohail:Nabeel30@cluster0.lidnkc6.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(dbURI);
+
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose is connected");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log("Mongoose connection error: ", err);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("Mongoose is disconnected");
+});
+
+process.on("SIGINT", () => {
+  mongoose.connection.close(() => {
+    console.log("Mongoose is disconnected due to application termination");
+    process.exit(0);
+  });
 });
 
 /*---------------------Static Files--------------------------*/
