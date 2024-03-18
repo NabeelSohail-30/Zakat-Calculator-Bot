@@ -42,20 +42,20 @@ app.post("/webhook", async (req, res) => {
     const session = body.session.split("/").pop(); // Extract session ID from the provided format
     console.log("Session: ", session);
 
-    // Check if session exists in the database, if not, create a new entry
-    const existingSession = Zakat.findOne({ session: session });
-    // console.log("Existing Session: ", existingSession);
-    console.log("Existing Session: ", existingSession.session);
-    console.log("Existing Session pk: ", existingSession._id);
-    if (!existingSession) {
-      console.log("Creating new session");
-      const newSession = new Zakat({
-        session: session,
-      });
-      console.log("New Session: ", newSession);
-      newSession.save();
-      console.log("Session saved");
-    }
+    // // Check if session exists in the database, if not, create a new entry
+    // const existingSession = Zakat.findOne({ session: session });
+    // // console.log("Existing Session: ", existingSession);
+    // console.log("Existing Session: ", existingSession.session);
+    // console.log("Existing Session pk: ", existingSession._id);
+    // if (!existingSession) {
+    //   console.log("Creating new session");
+    //   const newSession = new Zakat({
+    //     session: session,
+    //   });
+    //   console.log("New Session: ", newSession);
+    //   newSession.save();
+    //   console.log("Session saved");
+    // }
 
     const intentName = body.queryResult.intent.displayName;
     const params = body.queryResult.parameters;
